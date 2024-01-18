@@ -33,6 +33,7 @@ const Searchcity = () => {
   useEffect(() => {
     const fetchCitySuggestions = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           `https://api.openweathermap.org/geo/1.0/direct?q=${searchTerm}&limit=5&appid=d8596b1261b43be39522177d29112a96`
         );
@@ -40,6 +41,8 @@ const Searchcity = () => {
         setSuggestions(citySuggestions);
       } catch (error) {
         console.error("Error", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -105,6 +108,7 @@ const Searchcity = () => {
             <SearchIcon />
           </div>
         </div>
+        {loading && <p>Loading...</p>}
         {suggestions.length > 0 && (
           <div className="searchData">
             {suggestions.map((city, index) => (
